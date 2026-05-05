@@ -3,7 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>音符迷宫 | Note Maze</title>
+  <title>音符迷宫 | Note Maze - 边走边奏的音乐解谜游戏</title>
+
+  <!-- 🔍 SEO 基础信息 -->
+  <meta name="description" content="一款结合走迷宫与听音识谱的休闲网页游戏。按旋律顺序踩中音符，边走边奏，锻炼乐感与空间记忆！">
+  <meta name="keywords" content="音符迷宫, 音乐游戏, 网页游戏, 听音识谱, 休闲解谜, Note Maze, 钢琴音色">
+  <meta name="author" content="lichenxi_2012">
+
+  <!--  Open Graph（微信/QQ/微博/Facebook 分享卡片） -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://https://note-maze.pages.dev//">
+  <meta property="og:title" content="音符迷宫 | 边走边奏的音乐解谜游戏">
+  <meta property="og:description" content="按旋律顺序踩中音符，完整走完整首曲子即可通关。支持多难度迷宫与钢琴音色！">
+  <meta property="og:image" content="https://https://note-maze.pages.dev//preview.png">
+
+  <!-- 🐦 Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="音符迷宫 | Note Maze">
+  <meta name="twitter:description" content="走迷宫 = 弹奏乐曲，把走位解谜和听音识谱完美结合。">
+  <meta name="twitter:image" content="https://https://note-maze.pages.dev//preview.png">
+
+  <!-- 📱 PWA & 移动端体验 -->
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7e8e85afcf794485b0f6b66cbdebc224"}'></script><!-- End Cloudflare Web Analytics -->
+
+  <!-- 🖼️ 图标（建议添加） -->
+  <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,6 +54,7 @@
     <!-- 右侧：控制按钮 -->
     <div class="header-controls">
       <div class="control-row">
+        <button id="sound-shop-btn" class="control-btn">🎵 音色</button>
         <button id="hint-btn" class="control-btn">💡 提示</button>
         <button id="undo-btn" class="control-btn" disabled>⬅️ 回退</button>
       </div>
@@ -59,22 +90,23 @@
     <!-- 右侧面板 -->
     <aside class="right-panel">
       <div class="guide" style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #2a2d45;">
-        <h3>📖 操作说明</h3>
+        <h2>📖 操作说明</h2>
         <ul>
-          <li>⌨️ 电脑：方向键 ↑ ↓ ← →</li>
-          <li>📱 手机：屏幕滑动控制</li>
-          <li>🎯 严格按旋律顺序踩中音符</li>
-          <li>❌ 踩错可退回重走，你可以点击出示路径</li>
+          <li>⌨️ 电脑：方向键 ↑  ↓  ←  →</li>
+          <li>📱 手机：屏幕滑动</li>
+          <li>🎯 按照旋律踩中音符</li>
+          <li>❌ 踩错可退回重走，也可以 出示路径</li>
+          <li>🏪 你可以在 音色商店 里购买和切换音色</li>
         </ul>
       </div>
       <div class="stats" style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #2a2d45;">
-        <h3>📜 本局战绩</h3>
+        <h2>📜 本局成绩</h2>
         <p>已通关：<span id="win-count">0</span> 次</p>
         <p>总步数：<span id="total-steps">0</span> 步</p>
 
         <!-- 🆕 积分显示区域 -->
         <div class="score-box" style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #2a2d45;">
-          <h3>🏆 得分</h3>
+          <h2>🏆 得分</h2>
           <p>💰 本局得分：<span id="current-score" style="color: #f4d03f; font-weight: bold;">0</span></p>
           <p>🥇 总积分：<span id="total-score" style="color: #f4a261; font-weight: bold;">0</span></p>
         </div>
@@ -99,7 +131,23 @@
     </div>
   </div>
 
-  <script src="data.js"></script>
+  <!--  音色商店模态框 -->
+  <div id="sound-shop-modal" class="modal hidden">
+    <div class="modal-content shop-modal">
+      <h3>🎵 音色商店</h3>
+      <p class="shop-coins">当前金币：<span id="shop-coins-display">0</span> 💰</p>
+
+      <div class="sound-list">
+        <!-- 音色卡片将通过 JS 动态生成 -->
+      </div>
+
+      <button id="close-shop-btn" class="btn-secondary">❌ 关闭商店</button>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="storage.js"></script>
+  <script src="audio.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
