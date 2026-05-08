@@ -37,112 +37,123 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <!-- 左侧：Logo + 金币 -->
-    <div class="header-left">
-      <div class="logo">🎵 音符迷宫</div>
-      <div class="coin-display">💰 <span id="total-coins">0</span></div>
+  <header class="app-header">
+    <div class="header-brand">
+      <h1 class="logo">🎵 音符迷宫</h1>
+      <div class="difficulty-selector">
+        <button data-size="5" class="active">简单(5×5)</button>
+        <button data-size="8">中等(8×8)</button>
+        <button data-size="12">困难(12×12)</button>
+      </div>
     </div>
 
-    <!-- 中间：难度选择 -->
-    <div class="difficulty-selector">
-      <button data-size="5" class="active">简单(5×5)</button>
-      <button data-size="8">中等(8×8)</button>
-      <button data-size="12">困难(12×12)</button>
-    </div>
-
-    <!-- 右侧：控制按钮 -->
     <div class="header-controls">
-      <div class="control-row">
-        <button id="sound-shop-btn" class="control-btn">🎵 音色</button>
+      <div class="control-group primary">
         <button id="hint-btn" class="control-btn">💡 提示</button>
         <button id="undo-btn" class="control-btn" disabled>⬅️ 回退</button>
-      </div>
-      <div class="control-row">
         <button id="restart-btn" class="control-btn">🔄 重开</button>
-        <button id="volume-btn" class="control-btn">🔊 80%</button>
+      </div>
+      <div class="control-group secondary">
+        <button id="sound-shop-btn" class="control-btn icon-btn" title="音色商店">🎵</button>
+        <button id="volume-btn" class="control-btn icon-btn" title="音量">🔊</button>
+        <div class="coin-badge">💰 <span id="total-coins">0</span></div>
       </div>
     </div>
   </header>
 
-  <main class="container">
-    <!-- 左侧面板 -->
-    <aside class="left-panel">
-      <h3>🎼 选曲</h3>
-      <ul id="song-list" class="song-list"></ul>
-
-      <div class="info-box">
+  <main class="game-layout">
+    <aside class="panel panel-left">
+      <div class="panel-section">
+        <h3 class="section-title">🎼 选曲库</h3>
+        <ul id="song-list" class="song-list"></ul>
+      </div>
+      <div class="panel-section info-card">
+        <div class="info-row">
+          <span class="info-label">🎯 下一音符</span>
+          <span id="next-note" class="info-value">-</span>
+        </div>
         <div class="progress-wrapper">
           <label>进度</label>
-          <progress id="progress-bar" value="0" max="100"></progress>
-          <span id="progress-text">0 / 0</span>
+          <div class="progress-track">
+            <progress id="progress-bar" value="0" max="100"></progress>
+            <span id="progress-text">0 / 0</span>
+          </div>
         </div>
-        <p>⚠️ 失误次数：<span id="mistakes">0</span></p>
+        <div class="info-row">
+          <span class="info-label">⚠️ 失误</span>
+          <span id="mistakes" class="info-value warn">0</span>
+        </div>
       </div>
     </aside>
 
-    <!-- 中间迷宫 -->
-    <section class="game-area">
-      <div id="maze-board" class="maze-board"></div>
-      <div id="message" class="message hidden"></div>
+    <section class="game-stage">
+      <div class="stage-header">
+        <h2 id="current-song-name" class="song-title">🎵 请选择一首曲子</h2>
+      </div>
+      <div class="maze-container">
+        <div id="maze-board" class="maze-board"></div>
+        <div id="message" class="message hidden"></div>
+      </div>
     </section>
 
-    <!-- 右侧面板 -->
-    <aside class="right-panel">
-      <div class="guide" style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #2a2d45;">
-        <h2>📖 操作说明</h2>
-        <ul>
+    <aside class="panel panel-right">
+      <div class="panel-section guide-card">
+        <h3 class="section-title">📖 操作指南</h3>
+        <ul class="guide-list">
           <li>⌨️ 电脑：方向键 ↑  ↓  ←  →</li>
           <li>📱 手机：屏幕滑动</li>
           <li>🎯 按照旋律踩中音符</li>
           <li>❌ 踩错可退回重走，也可以 出示路径</li>
-          <li>🏪 你可以在 音色商店 里购买和切换音色</li>
         </ul>
       </div>
-      <div class="stats" style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #2a2d45;">
-        <h2>📜 本局成绩</h2>
-        <p>已通关：<span id="win-count">0</span> 次</p>
-        <p>总步数：<span id="total-steps">0</span> 步</p>
-
-        <!-- 🆕 积分显示区域 -->
-        <div class="score-box" style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #2a2d45;">
-          <h2>🏆 得分</h2>
-          <p>💰 本局得分：<span id="current-score" style="color: #f4d03f; font-weight: bold;">0</span></p>
-          <p>🥇 总积分：<span id="total-score" style="color: #f4a261; font-weight: bold;">0</span></p>
+      <div class="panel-section stats-card">
+        <h3 class="section-title"> 战绩面板</h3>
+        <div class="stat-row">
+          <span class="stat-label">通关次数</span>
+          <span id="win-count" class="stat-value">0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">总步数</span>
+          <span id="total-steps" class="stat-value">0</span>
+        </div>
+        <div class="stat-row highlight">
+          <span class="stat-label">本局得分</span>
+          <span id="current-score" class="stat-value gold">0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">最高分</span>
+          <span id="total-score" class="stat-value">0</span>
         </div>
       </div>
     </aside>
   </main>
 
-  <!-- 移动端音频初始化提示 -->
-  <div id="audio-init-overlay" class="audio-init">
-    <div class="init-box">🎧 点击任意处开启音频<br><small>(浏览器安全策略限制)</small></div>
-  </div>
-
+  <!-- 犯错提示模态框 -->
   <div id="mistake-modal" class="modal hidden">
     <div class="modal-content">
-      <h3> 🤓 需要帮助吗？</h3>
+      <h3>⚠️ 需要帮助吗？</h3>
       <p>你已经失误 <strong>5</strong> 次了</p>
-      <p>要不要显示路径？</p>
+      <p>要不要看看正确路径？</p>
       <div class="modal-buttons">
-        <button id="modal-hint-btn" class="btn-primary">💡 出示路径</button>
+        <button id="modal-hint-btn" class="btn-primary"> 出示提示</button>
         <button id="modal-close-btn" class="btn-secondary">❌ 我再试试</button>
       </div>
     </div>
   </div>
 
-  <!--  音色商店模态框 -->
+  <!-- 音色商店模态框 -->
   <div id="sound-shop-modal" class="modal hidden">
     <div class="modal-content shop-modal">
       <h3>🎵 音色商店</h3>
       <p class="shop-coins">当前金币：<span id="shop-coins-display">0</span> 💰</p>
-
-      <div class="sound-list">
-        <!-- 音色卡片将通过 JS 动态生成 -->
-      </div>
-
+      <div class="sound-list"></div>
       <button id="close-shop-btn" class="btn-secondary">❌ 关闭商店</button>
     </div>
+  </div>
+
+  <!-- 音频初始化遮罩 -->
+  <div id="audio-init-overlay" class="audio-init">
+    <div class="init-box">🎧 点击任意处开启音频<br><small>(浏览器安全策略限制)</small></div>
   </div>
 
   <script src="config.js"></script>
