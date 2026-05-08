@@ -18,9 +18,9 @@ const NOTE_MAP = {
 
 // 音符名称数组（用于随机填充）
 const NOTE_NAMES = [
-  'do↓', 're↓', 'mi↓', 'fa↓', 'sol↓', 'la↓', 'si↓',
-  'do', 're', 'mi', 'fa', 'sol', 'la', 'si',
-  'do↑', 're↑', 'mi↑', 'fa↑', 'sol↑', 'la↑', 'si↑'
+  'do↓', 're↓', 'mi↓', 'fa↓', '#fa↓', 'sol↓', 'la↓', 'si↓',
+  'do', 're', 'mi', 'fa', '#fa', 'sol', 'la', 'si',
+  'do↑', 're↑', 'mi↑', 'fa↑', '#fa↑', 'sol↑', 'la↑', 'si↑'
 ];
 
 // 预设曲库 (音符顺序即为通关序列)
@@ -87,9 +87,9 @@ const SONGS = [
   {id:'dreamwedding', name: '梦中的婚礼', notes: ['la','la','si','si','do↑','do↑','si','si','la','la','mi','mi','do','do','la↓','la↓','sol',
         'sol','fa','fa','mi','fa','sol','fa',
         'fa','fa','sol','sol','la','la','si','si','sol','sol','re','re','fa',
-        'fa','mi','mi','re','mi','fa↑','mi↑',
+        'fa','mi','mi','re','mi','fa','mi',
         'mi','la','do↑','mi↑','re↑','mi↑','la','do↑','mi↑','re↑','mi↑','la','do↑','fa↑','mi↑','fa↑','la','do↑','fa↑','mi↑','fa↑',
-        'fa','mi','fa','fa#','sol','sol','la','sol','la','mi↑']},
+        'fa↑','mi↑','fa↑','#fa↑','sol↑','sol↑','la↑','sol↑','la↑','mi↑']},
   {id:'kissofrain', name: '雨的印记', notes: ['sol','do↑','re↑','re↑','mi↑','mi↑','do↑','re↑','mi↑','re↑','sol↑','sol↑','sol↑','la↑','si↑',
         'si↑','do↑','do↑','re↑','mi↑','re↑','do↑','si','do↑','si','sol','sol','la','la','sol','fa',
         'fa','sol','sol','do','re','mi','fa','fa','sol','fa','mi','sol','do↑','re↑',
@@ -102,7 +102,11 @@ const SONGS = [
         're↑','sol↑','sol↑','sol↑','la↑','si↑','si↑','do↑','do↑','re↑','mi↑','re↑','do↑','si','do↑','si↑','sol↑',
         'sol↑','la↑','la↑','sol↑','fa↑','fa↑','sol↑','sol','do↑','re↑','mi','fa','fa','sol','fa']},
   {id:'chengnanhuayikai', name: '城南花已开', notes: ['la','do↑','re↑','mi↑','la','re↑','mi↑','la','sol↑','mi↑','sol↑','mi↑','la','do↑','re↑','mi↑','la','re↑','mi↑','sol','mi','la','do↑','si','sol','la','la','do↑','re↑','mi↑','la','re↑','mi↑','la','sol↑','mi↑','sol↑','mi↑','la','do↑','re↑','mi↑','la','re↑','mi↑','sol','mi','do↑','si','la','sol','la']},
-
+  {id:'zhuiguangzhe', name: '追光者', notes: ['do↑','re↑','mi↑','do↑','si','la','si','do↑','mi↑','re↑','si','la','sol','la','si','re↑','do↑','do↑','si','do↑','la','la','si','do↑','si','la','sol','do↑','re↑','mi↑','do↑','si','la','si','do↑','mi↑','re↑','si','la','sol','fa↑','mi↑','si','do↑','la','do↑','fa','mi','do↑','fa','mi','do↑','do↑','la','do↑','re↑','re↑','re↑','mi↑','fa','mi','do↑','re↑','sol','la','si','re↑','do↑','mi↑','sol','sol','la','mi','do↑','re↑','do↑','re↑','sol','mi','sol','la','si','re↑','do↑','mi↑','sol','sol','la','mi','do↑','re↑','do↑','si','do↑','do↑','sol','la','si','re↑','do↑','mi↑','sol','sol','la','re↑','do↑','re↑','do↑','re↑','sol','mi','sol','la','si','re↑','do↑','mi↑','sol','sol','mi','sol','sol','fa','mi','re','do']},
+  {id:'eutopia', name: 'Eutopia', notes: ['mi↑','sol↑','mi↑','re↑','do','la','do↑','re↑','mi↑','sol↑','re↑','si','mi↑','do↑','si','do↑',
+        'mi↑','sol↑','mi↑','re↑','do','fa','do↑','re↑','mi↑','mi↑','re↑','do↑','re↑','re↑','do↑','mi↑','si','do↑',
+        'mi↑','sol↑','mi↑','re↑','do','la','do↑','re↑','mi↑','sol↑','re↑','si','mi↑','do↑','si','do↑',
+        'la','si','do↑','do','fa','re↑','si','re↑','sol','la','la']},
 ];
 
 // 难度与格子大小映射
@@ -116,10 +120,10 @@ const DIFFICULTY = {
 const SOUND_PACKS = [
   { id: 'piano', name: '🎹 钢琴', desc: '经典多谐波合成，温暖饱满', price: 0, default: true },
 //  { id: 'guitar', name: '🎸 吉他', desc: '拨弦质感，清脆明亮', price: 20 },
-  { id: 'xylophone', name: '🔔 木琴', desc: '高频泛音丰富，清脆悦耳', price: 35 },
-  { id: 'musicbox', name: '🎶 八音盒', desc: '正弦波 + 颤音，梦幻清脆', price: 50 },
-  { id: 'synth', name: '🎛️ 电子琴', desc: '方波混合滤波器，现代感十足', price: 20 },
-  { id: 'flute', name: '🪈 长笛', desc: '柔和正弦波 + 轻微颤音，空灵悠扬', price: 60 },
-  { id: 'violin', name: '🎻 小提琴', desc: '丰富泛音 + 持续颤音，优雅深情', price: 80 },
+  { id: 'xylophone', name: '🔔 木琴', desc: '高频泛音丰富，清脆悦耳', price: 40 },
+  { id: 'musicbox', name: '🎶 八音盒', desc: '正弦波 + 颤音，梦幻清脆', price: 60 },
+  { id: 'synth', name: '🎛️ 电子琴', desc: '方波混合滤波器，现代感十足', price: 25 },
+  { id: 'flute', name: '🪈 长笛', desc: '柔和正弦波 + 轻微颤音，空灵悠扬', price: 75 },
+  { id: 'violin', name: '🎻 小提琴', desc: '丰富泛音 + 持续颤音，优雅深情', price: 100 },
 ];
 
