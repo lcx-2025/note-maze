@@ -54,7 +54,8 @@ window.addEventListener('DOMContentLoaded', () => {
     soundShopModal: document.getElementById('sound-shop-modal'),
     closeShopBtn: document.getElementById('close-shop-btn'),
     shopCoinsDisplay: document.getElementById('shop-coins-display'),
-    soundList: document.querySelector('.sound-list')
+    soundList: document.querySelector('.sound-list'),
+    currentSongName: document.getElementById('current-song-name')
   });
 
   // 音频初始化
@@ -88,6 +89,10 @@ function startGame() {
 
   updateCoinUI();
   updateBestScoreUI();
+
+  if (els.currentSongName) {
+    els.currentSongName.textContent = SONGS[0].name;
+  }
 }
 
 // ========== UI 渲染 ==========
@@ -162,6 +167,14 @@ function updateBestScoreUI() {
 // ========== 游戏逻辑 ==========
 function loadSong(songId, skipAutoSave = false) {
   const song = SONGS.find(s => s.id === songId);
+  if (els.currentSongName) {
+    els.currentSongName.classList.add('updating');
+    setTimeout(() => {
+      els.currentSongName.textContent = song.name;
+      els.currentSongName.classList.remove('updating');
+    }, 150);
+  }
+
   const maxLen = Math.floor(state.gridSize * state.gridSize * 0.7);
   state.melody = song.notes.slice(0, maxLen);
   state.currentPhraseMap = song.phraseColors || [];
